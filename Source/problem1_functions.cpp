@@ -4,6 +4,9 @@
 #include <iostream>
 #include <stdexcept>
 
+#include "myproblem1.h"
+
+// Function to convert frpm decimal to binary
 std::string decimal_to_binary(int d){
     std::string b = "";
     int remainder;
@@ -13,10 +16,10 @@ std::string decimal_to_binary(int d){
         b = std::to_string(remainder) + b;
         d /= 2;
     }
-
     return b;
 }
 
+// Function to convert from binary to decimal
 int binary_to_decimal(std::string b){
     int d = 0;
     int tracker = 1;
@@ -28,6 +31,7 @@ int binary_to_decimal(std::string b){
     return d;
 }
 
+// Converts decimal to octal
 std::string decimal_to_octal(int d){
     std::string b = "";
     int remainder;
@@ -41,6 +45,7 @@ std::string decimal_to_octal(int d){
     return b;
 }
 
+// Converts octal to decimal
 int octal_to_decimal(std::string oct){
     int d = 0;
     int tracker = 1;
@@ -52,7 +57,7 @@ int octal_to_decimal(std::string oct){
     return d;
 }
 
-
+// Converts decimal to hexadecimal
 std::string decimal_to_hex(int d){
     std::string b = "";
     int remainder;
@@ -73,6 +78,7 @@ std::string decimal_to_hex(int d){
     return b;
 }
 
+// converts hexadecimal to decimal
 int hex_to_decimal(std::string h){
     int d = 0;
     int tracker = 1;
@@ -90,13 +96,15 @@ int hex_to_decimal(std::string h){
     return d;
 }
 
-
-void number_conversion(std::string original_number, std::string original_base, std::string target_base){
+// Facilitates the differenc possible conversions
+// Returns a string representation of the desired type
+std::string number_conversion(std::string original_number, std::string original_base, std::string target_base){
     int decimal_form;
     std::string output_form;
 
-    std::cout << "Input Number: " << original_number << "\tInput base: " << original_base << std::endl;
+    std::cout << std::endl << "Input Number: " << original_number << "\tInput base: " << original_base << std::endl;
 
+    // Identify the appropriate original base and convert input to decimal form.
     if(original_base == "binary"){
         decimal_form = binary_to_decimal(original_number);
     } else if (original_base == "octal"){
@@ -109,6 +117,7 @@ void number_conversion(std::string original_number, std::string original_base, s
         throw std::invalid_argument("The input type must be binary, octal, hexadecimal, or decimal.");
     }
 
+    // Identify desired output and convert from decimal form. 
     if(target_base == "binary"){
         output_form = decimal_to_binary(decimal_form);
     } else if(target_base == "octal"){
@@ -121,28 +130,12 @@ void number_conversion(std::string original_number, std::string original_base, s
         throw std::invalid_argument("The target base must be binary, octal, hexadecimal, or decimal.");
     }
     std::cout << "Output Number: " << output_form << "\tOutput base: " << target_base << std::endl;
+
+    return output_form;
 }
 
-int main(){
-    std::string a = "47";
-    std::string output;
-
-    number_conversion(a, "decimal", "decimal");
-    number_conversion(a, "decimal", "binary");
-    number_conversion(a, "decimal", "octal");
-    number_conversion(a, "decimal", "hexadecimal");
-
-    std::string b = "101111";
-    std::cout << std::endl;
-    number_conversion(b, "binary", "decimal");
-
-    std::string c = "137";
-    std::cout << std::endl;
-    number_conversion(c, "octal", "decimal");
-
-    std::string d = "3F";
-    std::cout << std::endl;
-    number_conversion(d, "hexadecimal", "binary");
-
-    return 0;
+// overloaded function to handle a non-string input value. This could be an octal or decimal value.
+std::string number_conversion(int original_number, std::string original_base, std::string new_base) {
+    std::string number = std::to_string(original_number);
+    return number_conversion(number, original_base, new_base);
 }
